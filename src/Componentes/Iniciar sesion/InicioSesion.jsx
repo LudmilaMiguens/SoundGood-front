@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import logo from '../../logo/logo.png';
 import "./InicioSesion.css";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ export function PagInicioSesion() {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
+    
 
     // Función para manejar el envío del formulario
     const handleFormSubmit = async (e) => {
@@ -25,14 +26,16 @@ export function PagInicioSesion() {
         }
 
         try {
+            const token = localStorage.getItem('access_token');
             const response = await fetch('http://localhost:8080/autenticacion/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`, 
                 },
                 body: JSON.stringify({
                     email,
-                    contraseña: password,  
+                     contraseña: password,  
                 }),
             });
 
@@ -47,7 +50,6 @@ export function PagInicioSesion() {
                 setErrorMessage(data.message || 'Error al iniciar sesión. Inténtalo nuevamente.'); // Muestra el mensaje de error
             }
         } catch (error) {
-            console.error('Error en la solicitud de login:', error);
             setErrorMessage('Error al intentar iniciar sesión. Inténtalo nuevamente.');
         }
     };

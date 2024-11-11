@@ -18,6 +18,7 @@ export function PagRegistro() {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
 
+        // Validaciones de campos
         if (!validateEmail(email)) {
             setErrorMessage('El email debe ser válido.');
             return;
@@ -39,6 +40,7 @@ export function PagRegistro() {
             return;
         }
 
+        // Envío de datos al backend
         try {
             const response = await fetch('http://localhost:8080/autenticacion/registro', {
                 method: 'POST',
@@ -54,7 +56,6 @@ export function PagRegistro() {
                 })
             });
             const data = await response.json(); 
-            
             if (response.status === 201) {
                 clearForm();
                 navigate("/inicio-sesion");
@@ -66,45 +67,31 @@ export function PagRegistro() {
         }
     };
 
-    const validateEmail = (email) => {
-        const conditionEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return conditionEmail.test(email);
-    };
-
-    const validatePassword = (password) => {
-        const conditionPassword = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
-        return conditionPassword.test(password);
-    };
-
-    const validateFechaNacimiento = (date) => {
-        const cutoffDate = new Date('2023-01-01');
-        return date < cutoffDate;
-    };
+    const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const validatePassword = (password) => /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password);
+    const validateFechaNacimiento = (date) => date < new Date('2023-01-01');
 
     const handleEmailChange = (e) => {
-        const newEmail = e.target.value;
-        setEmail(newEmail);
-        setErrorMessage('');
+        setEmail(e.target.value);
+        if (errorMessage) setErrorMessage('');
     };
 
     const handlePasswordChange = (e) => {
-        const newPassword = e.target.value;
-        setPassword(newPassword);
-        if (validatePassword(newPassword)) {
-            setErrorMessage('');
-        } else {
-            setErrorMessage('La contraseña es incorrecta');
-        }
+        setPassword(e.target.value);
+        if (errorMessage && validatePassword(e.target.value)) setErrorMessage('');
     };
+
     const handleUserNameChange = (e) => {
         setUserName(e.target.value);
+        if (errorMessage) setErrorMessage('');
     };
-    
+
     const clearForm = () => {
         setEmail('');
         setPassword('');
         setErrorMessage('');
         setNombre('');
+        setUserName('');
         setFechaNacimiento(null);
     };
 
