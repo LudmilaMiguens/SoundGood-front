@@ -15,8 +15,8 @@ function EditaPerfil() {
   });
   const [mensajeGuardado, setMensajeGuardado] = useState(false);
 
-  const token = localStorage.getItem('token');
-
+  const token = localStorage.getItem('access_token');
+  
   // Verifica si hay token antes de hacer la solicitud
   if (!token) {
     // Redirige o muestra un mensaje si no hay token
@@ -33,14 +33,16 @@ function EditaPerfil() {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+             'Authorization': `Bearer ${token}`
           }
         });
 
         if (!response.ok) throw new Error('Error al obtener los datos del perfil');
         
         const data = await response.json();
+        
         setUsuario(data); // Establece los datos del usuario en el estado
+
       } catch (error) {
         console.error('Error al obtener los datos del perfil:', error.message);
       }
@@ -66,23 +68,23 @@ function EditaPerfil() {
       const response = await fetch('http://localhost:8080/usuarios/perfil', {
         method: 'PATCH',
         headers: {
-          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
-          
+           'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(usuario)
       });
 
       const data = await response.json(); // Obtener respuesta de la API
-
+      console.log(data);
+      
       if (!response.ok) {
         setMensajeGuardado(false);
         throw new Error(data.message || 'No se pudo actualizar el perfil');
       }
-
       // Si la actualización es exitosa, muestra un mensaje temporal
       setMensajeGuardado(true);
       setTimeout(() => setMensajeGuardado(false), 3000);
+
     } catch (error) {
       console.error('Error al actualizar el perfil:', error.message);
     }
