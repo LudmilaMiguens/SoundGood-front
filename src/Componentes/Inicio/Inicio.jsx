@@ -14,7 +14,7 @@ Modal.setAppElement('#root'); // Establece el elemento raíz para accesibilidad
 import { usePlayer } from '../Reproductor musica/PlayerContext';
 
 export function Inicio({ redirectToAcercaDe, redirectToPlanPremium, redirectToVersionGratuita, redirectToAyudas }) {
-    const [songsTop50, setSongsTop50] = useState([]);
+    const [Top10, setTop10] = useState([]);
     const [songsTendencias, setSongsTendencias] = useState([]);
     const [selectedSongUrl, setSelectedSongUrl] = useState(null);
     const { addFavorite, addSongToPlaylist, playlists } = useFavorites();
@@ -25,20 +25,25 @@ export function Inicio({ redirectToAcercaDe, redirectToPlanPremium, redirectToVe
     const { currentSong, setCurrentSong } = usePlayer();
 
     useEffect(() => {
-        fetch('/CancionesTop50.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('La respuesta de la red no fue exitosa');
-                }
-                return response.json();
-            })
-            .then(data => {
-                setSongsTop50(data);
-            })
-            .catch(error => {
-                console.error('Error cargando las canciones:', error);
-            });
-    }, []);
+
+        //obtener las canciones de top10
+        const obtenerTop10 = async () =>{
+            try {
+                const response = await fetch('http://localhost:8080/top10/todos',{
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if(!response.ok) throw new Error('Error al obtener los datos de top 10');
+                const data = await response.json();
+                setTop10(data);
+            } catch (error) {
+                console.error('Error al obtener las canciones de top 10', error.message);              
+            }
+        };
+        obtenerTop10();   
+    },[]);
 
     useEffect(() => {
         fetch('/Tendencias.json')
@@ -146,7 +151,7 @@ export function Inicio({ redirectToAcercaDe, redirectToPlanPremium, redirectToVe
             <div className="home">
                 <p className="section-title">Top 10</p>
                 <Slider {...settings}>
-                    {songsTop50.map((song, index) => (
+                    {Top10.map((song, index) => (
                         <SongCard
                             key={index}
                             image={song.image}

@@ -64,7 +64,7 @@ function EditaPerfil() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
+    try { 
       const response = await fetch('http://localhost:8080/usuarios/perfil', {
         method: 'PATCH',
         headers: {
