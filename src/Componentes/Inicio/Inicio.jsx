@@ -15,7 +15,7 @@ import { usePlayer } from '../Reproductor musica/PlayerContext';
 
 export function Inicio({ redirectToAcercaDe, redirectToPlanPremium, redirectToVersionGratuita, redirectToAyudas }) {
     const [Top10, setTop10] = useState([]);
-    const [songsTendencias, setSongsTendencias] = useState([]);
+    const [Tendencias, setTendencias] = useState([]);
     const [selectedSongUrl, setSelectedSongUrl] = useState(null);
     const { addFavorite, addSongToPlaylist, playlists } = useFavorites();
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,11 +25,10 @@ export function Inicio({ redirectToAcercaDe, redirectToPlanPremium, redirectToVe
     const { currentSong, setCurrentSong } = usePlayer();
 
     useEffect(() => {
-
         //obtener las canciones de top10
         const obtenerTop10 = async () =>{
             try {
-                const response = await fetch('http://localhost:8080/top10/todos',{
+                const response = await fetch('http://localhost:8080/top10',{
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
@@ -37,7 +36,8 @@ export function Inicio({ redirectToAcercaDe, redirectToPlanPremium, redirectToVe
                 });
                 if(!response.ok) throw new Error('Error al obtener los datos de top 10');
                 const data = await response.json();
-                setTop10(data);
+                setTop10(data[0].canciones);
+                console.log(data[0].canciones)
             } catch (error) {
                 console.error('Error al obtener las canciones de top 10', error.message);              
             }
@@ -46,23 +46,28 @@ export function Inicio({ redirectToAcercaDe, redirectToPlanPremium, redirectToVe
     },[]);
 
     useEffect(() => {
-        fetch('/Tendencias.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('La respuesta de la red no fue exitosa');
-                }
-                return response.json();
-            })
-            .then(data => {
-                setSongsTendencias(data);
-            })
-            .catch(error => {
-                console.error('Error cargando las canciones:', error);
-            });
-    }, []);
+        //obtener las canciones de top10
+        const obtenerTendencias= async () =>{
+            try {
+                const response = await fetch('http://localhost:8080/tendencias',{
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if(!response.ok) throw new Error('Error al obtener los datos de tendencia');
+                const data = await response.json();
+                setTop10(data[0].canciones);
+                console.log(data[0].canciones)
+            } catch (error) {
+                console.error('Error al obtener las canciones de tendencia', error.message);              
+            }
+        };
+        obtenerTendencias();   
+    },[]);
 
     const openModal = (song) => {
-        setCurrentSong(song.url); // Establece la canción en el contexto
+        setCurrentSong(song.songFilename); // Establece la canción en el contexto
         setIsModalOpen(true);
     };
 
@@ -75,12 +80,12 @@ export function Inicio({ redirectToAcercaDe, redirectToPlanPremium, redirectToVe
     const handleAddToPlaylist = () => {
         if (selectedPlaylist) {
             const playlistSongs = playlists[selectedPlaylist];
-            const isSongInPlaylist = playlistSongs.some(song => song.url === currentSong);
+            const isSongInPlaylist = playlistSongs.some(song => song.songFilename === currentSong);
 
             if (isSongInPlaylist) {
                 setErrorMessage('Esta canción ya está en esa playlist.');
             } else {
-                const currentSongData = songsTop50.find(song => song.url === currentSong) || songsTendencias.find(song => song.url === currentSong);
+                const currentSongData = Top10.find(song => song.url === currentSong) || Tendencias.find(song => song.songFilename === currentSong);
                 if (currentSongData) {
                     addSongToPlaylist(currentSongData, selectedPlaylist); // Agrega el objeto completo de la canción
                     console.log(`Canción añadida: ${currentSong}`);
@@ -154,13 +159,13 @@ export function Inicio({ redirectToAcercaDe, redirectToPlanPremium, redirectToVe
                     {Top10.map((song, index) => (
                         <SongCard
                             key={index}
-                            image={song.image}
-                            title={song.title}
-                            tags={song.tags}
-                            url={song.url}
+                            image={song.imageFilename}
+                            title={song.titulo}
+                            tags={song.tags} //genero 
+                            url={song.songFilename}
                             onClick={() => {
-                                setSelectedSongUrl(song.url);
-                                setCurrentSong(song.url); // Establece la canción en el contexto del reproductor
+                                setSelectedSongUrl(song.songFilename);
+                                setCurrentSong(song.songFilename); // Establece la canción en el contexto del reproductor
                             }}
                             onFavorite={() => addFavorite(song)}
                             onAddToPlaylist={() => openModal(song)}
@@ -169,17 +174,17 @@ export function Inicio({ redirectToAcercaDe, redirectToPlanPremium, redirectToVe
                 </Slider>
                 <p className="section-title">Tendencias</p>
                 <Slider {...settings}>
-                    {songsTendencias.map((song, index) => (
+                    {Tendencias.map((song, index) => (
                         <SongCard
                             key={index}
-                            image={song.image}
-                            title={song.title}
+                            image={song.imageFilename}
+                            title={song.titulo}
                             tags={song.tags}
-                            url={song.url}
+                            url={song.songFilename}
                             artist={song.artist}
                             onClick={() => {
-                                setSelectedSongUrl(song.url);
-                                setCurrentSong(song.url);
+                                setSelectedSongUrl(song.songFilename);
+                                setCurrentSong(song.songFilename);
                             }}
                             onFavorite={() => addFavorite(song)}
                             onAddToPlaylist={() => openModal(song)} // Asegúrate de que el modal se abre con la canción correcta
