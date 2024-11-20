@@ -26,45 +26,47 @@ export function Inicio({ redirectToAcercaDe, redirectToPlanPremium, redirectToVe
 
     useEffect(() => {
         //obtener las canciones de top10
-        const obtenerTop10 = async () =>{
+        const obtenerTop10 = async () => {
             try {
-                const response = await fetch('http://localhost:8080/top10',{
+                const response = await fetch('http://localhost:8080/top10', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 });
-                if(!response.ok) throw new Error('Error al obtener los datos de top 10');
+                if (!response.ok) throw new Error('Error al obtener los datos de top 10');
                 const data = await response.json();
-                setTop10(data[0].canciones);
+                setTop10(data[0]?.canciones || []);
+                // setTop10(data.flatMap(top10 => top10.canciones));
                 console.log(data[0].canciones)
+                //console.log(data);
             } catch (error) {
-                console.error('Error al obtener las canciones de top 10', error.message);              
+                console.error('Error al obtener las canciones de top 10', error.message);
             }
         };
-        obtenerTop10();   
-    },[]);
+        obtenerTop10();
+    }, []);
 
     useEffect(() => {
         //obtener las canciones de tendencias
-        const obtenerTendencias= async () =>{
+        const obtenerTendencias = async () => {
             try {
-                const response = await fetch('http://localhost:8080/tendencias',{
+                const response = await fetch('http://localhost:8080/tendencias', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 });
-                if(!response.ok) throw new Error('Error al obtener los datos de tendencia');
+                if (!response.ok) throw new Error('Error al obtener los datos de tendencia');
                 const data = await response.json();
                 setTop10(data[0].canciones);
                 console.log(data[0].canciones)
             } catch (error) {
-                console.error('Error al obtener las canciones de tendencia', error.message);              
+                console.error('Error al obtener las canciones de tendencia', error.message);
             }
         };
-        obtenerTendencias();   
-    },[]);
+        obtenerTendencias();
+    }, []);
 
     const openModal = (song) => {
         setCurrentSong(song.songFilename); // Establece la canción en el contexto
@@ -155,13 +157,13 @@ export function Inicio({ redirectToAcercaDe, redirectToPlanPremium, redirectToVe
             </div>
             <div className="home">
                 <p className="section-title">Top 10</p>
-                <Slider {...settings}>
+                {/*<Slider {...settings}>
                     {Top10.map((song, index) => (
                         <SongCard
                             key={index}
                             image={song.imageFilename}
-                            title={song.titulo}
-                            tags={song.tags} //genero 
+                            title={song.titulo} 
+                            tag={song.tag} //traer el genero 
                             url={song.songFilename}
                             onClick={() => {
                                 setSelectedSongUrl(song.songFilename);
@@ -171,6 +173,23 @@ export function Inicio({ redirectToAcercaDe, redirectToPlanPremium, redirectToVe
                             onAddToPlaylist={() => openModal(song)}
                         />
                     ))}
+                </Slider>*/ }
+                <Slider {...settings}>
+                    {Top10 && Top10.length > 0 ? Top10.map((song, index) => (
+                        <SongCard
+                            key={index}
+                            image={song.imageFilename}
+                            title={song.titulo}
+                            tag={song.tag} // Traer el género
+                            url={song.songFilename}
+                            onClick={() => {
+                                setSelectedSongUrl(song.songFilename);
+                                setCurrentSong(song.songFilename); // Establece la canción en el contexto del reproductor
+                            }}
+                            onFavorite={() => addFavorite(song)}
+                            onAddToPlaylist={() => openModal(song)}
+                        />
+                    )) : <p>No hay canciones disponibles en el Top 10.</p>}
                 </Slider>
                 <p className="section-title">Tendencias</p>
                 <Slider {...settings}>
