@@ -1,36 +1,18 @@
+.container-logo {
+  @apply flex flex-col pt-5
+}
 .form {
-    display: flex; /* Usar flexbox para el diseño */
-    flex-direction: column; /* Alinear elementos verticalmente */
-    width: 35%; /* Ancho del formulario */
-    margin: 0 auto; /* Centrar el formulario horizontalmente */
-    margin-bottom: 100px;
-    margin-top: 50px;
-    padding: 20px;
-    border-radius: 5px; /* Bordes redondeados */
-  }
-  
-  .form input {
-    align-self: center; /* centra los input*/
-    width: 90%; /* Ancho completo para los campos de entrada */
-    margin-bottom: 15px; /* Espacio entre campos */
-    padding: 8px; /* Espaciado interno */
-    border: 1px solid #ccc; /* Borde de los campos de entrada */
-    border-radius: 3px; /* Bordes redondeados */
-  }
-  
-  .form button {  
-    align-self: center; /*contenedor al centro*/
-    align-items: center;/* texto centrado*/
-    width: 90%; /* Ancho completo para el botón */
-    padding: 10px; /* Espaciado interno */
-    background-color: #5fa25b; /* Color de fondo del botón */
-    color: white; /* Color del texto del botón */
-    border: none; /* Sin borde */
-    border-radius: 3px; /* Bordes redondeados */
-  }
-  
-  .Logo {
-    width: 20%; /* Establece el ancho de la imagen al 100% del contenedor */
-    margin-top: 100px;
-  }
-  
+  @apply flex flex-col w-4/5 sm:w-3/5 md:w-2/5 lg:w-1/3 mx-auto mb-24 mt-12 p-5 rounded;
+}
+
+.form input {
+  @apply self-center w-full sm:w-11/12 mb-4 p-2 border border-gray-300 rounded;
+}
+
+.form button {
+  @apply self-center w-full sm:w-11/12 py-2 bg-green-600 text-white rounded;
+}
+
+.Logo {
+  @apply w-2/5 sm:w-1 md:w-1/5 self-center;
+}

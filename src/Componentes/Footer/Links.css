@@ -1,64 +1,57 @@
-.container-link{
-    padding: 20px;
-    font-family: inherit;
-
-}
-
-h1 {
-    font-size: 2em;
-    margin-bottom: 20px;
-    color: #5fa25b;
-}
-
-h2 {
-    font-size: 1.5em;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    color: white;
-}
-
-h3 {
-    margin-top: 50px;
-    margin-bottom: 20px;
-    color: white;
-}
-
-p,
-ol {
-    font-size: 16px;
-    line-height: 1.5;
-    margin-bottom: 20px;
-    color: #676262;
-}
-
-/* Estilo para listas ordenadas */
-
-ol {
-    padding-left: 20px;
-    margin-bottom: 20px;
-}
-ul,ol {
-    font-size: 16px;
-    line-height: 1.5;
-    margin-bottom: 20px;
-    color: #676262;
-    list-style-type: disc;
-    padding-left: 20px;
-}
-
-.green-button {
-    background-color: #5fa25b;
-    color: white;
-    padding: 10px;
-    /* Espaciado interno */
-    border: none;
-    /* Sin borde */
-    border-radius: 3px;
-    /* Bordes redondeados */
-    cursor: pointer;
-    /* Cursor al pasar sobre el botón */
-    margin-right: 20px;
-    /* Margen derecho para separar los botones */
-    margin-bottom: 50px;
-    margin-top: 30px;
-}
+/* Contenedor de enlaces */
+.container-link {
+    @apply  py-10 px-10 mt-5 text-center;
+  }
+  
+  /* Títulos */
+  h1 {
+    @apply text-3xl pb-5 text-green-600; /* Aumento del margen inferior para más espacio entre h1 y los siguientes títulos */
+  }
+  
+  h2 {
+    @apply text-xl pt-8 pb-4 text-white underline; /* Aumento del margen inferior entre h2 y h3 */
+  }
+  
+  /* Párrafos y listas ordenadas */
+  p, ol {
+    @apply text-base leading-relaxed mb-5 text-gray-400;
+  }
+  
+  /* Estilo para listas ordenadas */
+  ol {
+    @apply pl-5 mb-5;
+  }
+  
+  ul, ol {
+    @apply text-base leading-relaxed mb-5 text-neutral-500 list-disc pl-5;
+  }
+  
+  /* Botón verde */
+  .green-buttons {
+    @apply bg-green-600 text-white py-1 px-3 rounded-sm cursor-pointer mr-5 mb-12 mt-7;
+  }
+  
+  /* Estilo responsive para pantallas pequeñas */
+  @media (max-width: 768px) {
+    .container-links{
+      @apply p-4; /* Ajustar padding para pantallas pequeñas */
+    }
+  
+    h1 {
+      @apply text-xl; /* Reducir tamaño de fuente de h1 */
+      @apply mb-6; /* Menor margen inferior en pantallas pequeñas */
+    }
+  
+    h2, h3 {
+      @apply text-lg; /* Reducir tamaño de fuente de h2 y h3 */
+    }
+  
+    p, ol, ul {
+      @apply text-sm; /* Reducir tamaño de fuente en párrafos y listas */
+    }
+  
+    .green-button {
+      @apply py-2 px-3; /* Reducir tamaño del botón */
+    }
+  }
+  

@@ -1,53 +1,33 @@
+/* Archivo CSS utilizando @apply en Tailwind */
 
-
+/* Globales */
 .body, .html {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    height: 100%;
+    @apply m-0 p-0 font-sans h-full;
 }
 
+/* Estilos para la sección premium */
 .premium-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: calc(100vh - 100px); /* Ajusta para Nav y Footer */
-    padding: 20px;
-    text-align: center;
+    @apply flex flex-col items-center justify-center min-h-screen px-5 text-center;
+    min-height: calc(100vh - 100px); /* Ajuste para el nav y el footer */
 }
 
 .premium-title {
-    font-size: 2rem;
-    color: #ffffff;
-    margin-bottom: 20px;
+    @apply text-4xl text-white mb-5 no-underline;
 }
 
 .premium-button {
-    background-color: #5fa25b;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1rem;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+    @apply bg-[#5fa25b] text-white border-none py-2 px-5 text-base cursor-pointer rounded transition ease-in-out duration-300;
 }
 
 .premium-button:hover {
-    background-color: #5fa25b
+    @apply bg-[#2b7427]; /* Cambio de color al hacer hover */
 }
 
+/* Estilos para la navegación y footer */
 .nav-fixed {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1;
+    @apply fixed top-0 w-full z-10;
 }
 
 .footer-fixed {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    z-index: 1;
+    @apply fixed bottom-0 w-full z-10;
 }

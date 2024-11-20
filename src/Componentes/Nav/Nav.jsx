@@ -129,7 +129,7 @@ export const Nav = () => {
                             <h2>Canciones encontradas:</h2>
                             <ul className="card-nav">
                                 {searchResults.map((song, index) => (
-                                    <SongCard
+                                    <SongCard 
                                         key={index}
                                         url={song.url}
                                         title={song.title}

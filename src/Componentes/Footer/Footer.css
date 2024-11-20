@@ -1,88 +1,82 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    list-style: none;
-
-}
-body {
-  font-family: inherit !important;
-}
-
-.container {
-  max-width: 100%;
-  margin: 0 auto;
-  height: 230px;
-  
-}
-
+/* Footer principal */
 .footer {
-  padding: 40px 0;
-  margin-bottom: 15px;
-  margin-top: 15px;
+  @apply py-12 mb-16 mt-3  text-white;
 }
 
+/* Contenedor del footer */
+.container {
+  @apply max-w-screen-lg mx-auto px-4;
+}
+
+/* Fila del footer */
 .footer-row {
-  display: flex;
-  justify-content:space-evenly;
-  flex-wrap: wrap;
+  @apply flex justify-evenly flex-wrap;
 }
 
+/* Enlaces del footer */
 .footer-links {
-  width: 25%;
-  padding: 0 15px;
-  text-align: left;
-  margin-left: 26px;
-}
-.footer-links h4 {
-  font-size: 16px;
-  color: #FFFFFF;
-  margin-bottom: 25px;
-  border-bottom: 2px solid #94999b;
-  padding-bottom: 10px;
-  display: inline-block;
+  @apply w-1/4 px-4 text-left ml-6;
 }
 
+/* Títulos del footer */
+.footer-title {
+  @apply text-lg font-semibold mb-4 border-b-2 border-gray-400 pb-4;
+}
+
+
+/* Estilo de los enlaces */
 .footer-links ul li a {
-  font-size: 14px;
-  text-decoration: none;
-  color: #BBBBBB;
-  display: block;
-  margin-bottom: 15px;
-  transition: all .3s ease;
+  @apply text-sm no-underline text-gray-400 block transition-all duration-300 ease-in-out pb-4;
 }
 
 .footer-links ul li a:hover {
-  color: #FFFFFF;
-  padding-left: 6px;
+  @apply text-white pl-1.5;
 }
 
+/* Iconos de redes sociales */
 .social-link a {
-  display: inline-block;
-  min-height: 35px;
-  width: 38px;
-  background-color: rgba(72, 196, 72, 0.685);
-  margin: 0 10px 10px 0;
-  text-align: center;
-  line-height: 40px;
-  border-radius: 50%;
-  color: #ffffff;
-  transition: all .5s ease;
+  @apply inline-block min-h-[35px] w-[35px] bg-green-500 bg-opacity-70 m-2 text-center leading-[35px] rounded-full text-white transition-all duration-500 ease-in-out;
 }
+
 .social-link a:hover {
-background-color: #9c9b99;
+  @apply bg-gray-400;
 }
 
-@media (max-width:991px) {
-      .footer-row {
-        text-align: left;
-      }
+/* Estilos responsivos */
+@media (max-width: 991px) {
+  .footer-row {
+      @apply text-left;
+  }
 
-      .footer-links {
-        width: 100%;
-        margin-bottom: 30px;
-      }
+  .footer-links {
+      @apply w-full mb-8;
+  }
+
+  /* Aquí es donde alineamos los enlaces horizontalmente solo en pantallas pequeñas */
+  .footer-links ul {
+      @apply flex;
+  }
+
+  .footer-links ul li {
+      @apply mr-4 mb-0;
+  }
 }
-.footer-title {
-  text-align:left;
+
+@media (max-width: 480px) {
+  
+  .footer{
+    @apply mt-0 
+  }
+  .footer-title {
+    @apply mb-0 mt-0; /* Menor espacio entre títulos en pantallas pequeñas */
+  }
+  .footer-links  {
+      @apply mr-6 mb-4;
+  }
 }
+
+
+
+
+
+

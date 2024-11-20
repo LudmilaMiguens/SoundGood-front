@@ -52,17 +52,19 @@ export function PagRegistro() {
                     userName,
                     fechaNacimiento: fechaNacimiento ? fechaNacimiento.toISOString().split('T')[0] : null,
                     email,
-                    contraseña: password, 
+                    contraseña: password,
                 })
             });
+
             const data = await response.json(); 
+
             if (response.status === 201) {
                 clearForm();
                 navigate("/inicio-sesion");
             } else {
                 setErrorMessage(data.message || 'Error al registrar usuario. Inténtalo nuevamente.');
             }
-        } catch (error) {            
+        } catch (error) {
             setErrorMessage('Error al registrar usuario. Inténtalo nuevamente.');
         }
     };
@@ -97,7 +99,9 @@ export function PagRegistro() {
 
     return (
         <div>
-            <img src={logo} alt="Logo" className="Logo" />
+            <div className="container-logo">
+                <img src={logo} alt="Logo" className="Logo" />
+            </div>
             <form className="form" onSubmit={handleFormSubmit}>
                 <input type="text" name="nombre" placeholder="Nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} required />
                 <input type="text" name="userName" placeholder="UserName" value={userName} onChange={handleUserNameChange} required />

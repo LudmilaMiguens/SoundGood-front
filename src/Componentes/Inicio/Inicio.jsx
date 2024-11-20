@@ -46,7 +46,7 @@ export function Inicio({ redirectToAcercaDe, redirectToPlanPremium, redirectToVe
     },[]);
 
     useEffect(() => {
-        //obtener las canciones de top10
+        //obtener las canciones de tendencias
         const obtenerTendencias= async () =>{
             try {
                 const response = await fetch('http://localhost:8080/tendencias',{

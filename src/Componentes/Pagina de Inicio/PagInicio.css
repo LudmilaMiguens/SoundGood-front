@@ -1,13 +1,5 @@
 .green-button {
-    width: 200px;
-    background-color: #5fa25b;
-    color: white;
-    padding: 10px; /* Espaciado interno */
-    border: none; /* Sin borde */
-    border-radius: 3px; /* Bordes redondeados */
-    cursor: pointer; /* Cursor al pasar sobre el botón */
-    margin-right: 20px; /* Margen derecho para separar los botones */
-    margin-bottom: 50px;
-    margin-top: 30px;
+    @apply w-32 bg-[#5fa25b] text-white p-3 rounded-lg cursor-pointer m-2
+  
     
 }

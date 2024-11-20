@@ -1,43 +1,35 @@
-.fromRegistro{
-    display: flex; /* Usar flexbox para el diseño */
-    flex-direction: column; /* Alinear elementos verticalmente */
-    width: 70%; /* Ancho del formulario */
-    margin: 0 auto; /* Centrar el formulario horizontalmente */
-    padding: 20px;
-    border: 1px solid #ccc; /* Borde del formulario */
-    border-radius: 5px; /* Bordes redondeados */
-}
-.parrafos {
-    margin-left: 13px;
-    text-align: left; /* Alinea el texto a la izquierda */
-    color: white;
-    margin-bottom: 20px;
-    padding: 10px; /* Agrega padding para espacio interior */
-    width: 90%; /* Asegura que el párrafo ocupe todo el ancho del contenedor */
-    box-sizing: border-box; /* Incluye padding y border en el tamaño total */
-}
+.container-logo {
+    @apply flex flex-col pt-5
+  }
+.fromRegistro {
+    @apply flex flex-col w-4/5 sm:w-3/5 md:w-1/2 lg:w-2/5 mx-auto p-5 border border-gray-300 rounded;
+  }
+  
+  .parrafos {
+    @apply ml-3 text-left text-white mb-5 p-2 w-11/12 box-border;
+  }
+  
+  .date-picker {
+    @apply w-full p-2 box-border;
+  }
+  
+  .react-datepicker__navigation {
+    @apply w-0;
+  }
+  
+  .react-datepicker__month-dropdown-container,
+  .react-datepicker__year-dropdown-container {
+    @apply inline-block relative z-50 bg-white border border-gray-300;
+  }
+  .Logo {
+    @apply w-2/5 sm:w-1 md:w-1/5 self-center;
+  }
+  
 
-.date-picker {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-}
-.react-datepicker__navigation {
-    width: 0% !important;
-
-}
-/* Asegura que los contenedores de los menús desplegables no se superpongan */
-.react-datepicker__month-dropdown-container,
-.react-datepicker__year-dropdown-container {
-    display: inline-block;
-    position: relative;
-    z-index: 9999;
-    background-color: white;
-    border: 1px solid #ccc;
-    margin-right: 5px;
-}
-
-
-
-
-
+  .react-datepicker-wrapper {
+    @apply self-center sm:w-11/12 border border-gray-300 rounded !important;
+    width: -webkit-fill-available;
+  }
+  .react-datepicker-wrapper input {
+    @apply w-full  !important;
+  }

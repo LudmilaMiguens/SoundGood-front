@@ -24,7 +24,7 @@ export function Biblioteca() {
             setShowModal(false);
         }
     };
-    
+
     const handleSongClick = (song) => {
         if (song && song.url) {
             setSelectedSong(song); // Guarda la canción seleccionada localmente
@@ -34,7 +34,7 @@ export function Biblioteca() {
             console.error('La canción seleccionada no tiene una URL válida', song);
         }
     };
-    
+
 
     return (
         <>
@@ -42,6 +42,9 @@ export function Biblioteca() {
                 <Nav />
             </div>
             <div className="biblioteca">
+                <div class="flex justify-center">
+                    <button className="create-playlist-button" onClick={() => setShowModal(true)}>Crear Playlist</button>
+                </div>
                 <p className="section-title">Tus favoritos</p>
                 {/* Muestra las canciones favoritas */}
                 <div className="favorites-list">
@@ -53,7 +56,7 @@ export function Biblioteca() {
                 </div>
                 <p className="section-title">Tus Playlists</p>
                 {/* Muestra las listas de reproducción */}
-                <button className="create-playlist-button" onClick={() => setShowModal(true)}>Crear Playlist</button>
+
                 {Object.keys(playlists).map((name, index) => (
                     <div key={index}>
                         <h3 className="playlist-title" onClick={() => setSelectedPlaylist(name)}>{name}</h3>

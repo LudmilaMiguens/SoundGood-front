@@ -1,160 +1,84 @@
+/* Estilos para pantallas de escritorio (default) */
 .navbar {
-    display: flex; 
-    flex-direction: row; 
-    justify-content: space-between; 
-    align-items: center; 
-    width: 100%; 
-    height: auto; /* El alto de la barra se ajusta automáticamente */
-    padding: 0.25% 2%; 
-    background-color: black; 
-    border-radius: 10px; 
-    position: fixed; /* Posición fija, siempre visible en la parte superior */
-    z-index: 1000; /* Coloca la barra encima de otros elementos para evitar que se superponga */
+    @apply flex flex-row justify-between items-center w-full h-auto py-4 px-8 bg-black rounded-lg fixed top-0 z-[1000];
 }
 
 .nav-logo img {
-    width: 90px; 
-    height: auto; 
+    @apply w-[75px] h-auto;
 }
 
 .nav-buscador {
-    display: flex; 
-    flex-direction: row; 
-    align-items: center; 
-    flex-grow: 1; /* El buscador se expande ocupando el espacio sobrante entre el logo y los enlaces */
-    justify-content: center; 
-    margin-left: 20px; 
-    margin-right: 20px; 
+    @apply flex flex-row items-center flex-grow justify-center mx-5;
 }
 
 .nav-buscador input[type="text"] {
-    padding: 10px; 
-    border-radius: 5px; 
-    font-size: 16px; 
-    width: 600px; 
-    max-width: 100%; 
-    margin-right: 10px;
-     } 
+    @apply p-3 rounded text-base w-[700px] max-w-full mr-3;
+}
 
 .nav-buscador button {
-    background-color: #5FA25B; 
-    width: 150px; 
-    padding: 10px; 
-    font-size: 16px; 
+    @apply bg-[#5FA25B] w-[160px] p-3 text-base;
 }
 
 .nav-links {
-    display: flex; 
-    align-items: center; 
+    @apply flex items-center;
 }
 
 .nav-links a {
-    color: rgb(255, 255, 255); 
-    text-decoration: none;
-    margin-left: 10px; 
-    padding: 10px; 
-    font-size: 16px; 
- }
-
-/* Medias para pantallas más pequeñas */
-
-/* Pantallas menores a 1200px */
-@media screen and (max-width: 1200px) {
-    .nav-logo img {
-        width: 80px; 
-    }
-
-    .nav-buscador input[type="text"] {
-        width: 500px; 
-    }
-
-    .nav-buscador button {
-        width: 130px; 
-        padding: 8px; 
-        font-size: 14px; 
-    }
-
-    .nav-links a {
-        font-size: 14px; 
-    }
+    @apply text-white no-underline ml-4 p-3 text-lg;
 }
 
-/* Pantallas menores a 992px */
-@media screen and (max-width: 992px) {
+/* Ajustes para pantallas medianas y pequeñas */
+@media (max-width: 768px) {
+    .navbar {
+        @apply px-4 py-2; /* Reduce el padding */
+    }
+
     .nav-logo img {
-        width: 70px; 
+        @apply w-[60px]; /* Reduce el tamaño del logo */
+    }
+
+    .nav-buscador {
+        @apply mx-2; /* Reduce el margen lateral */
     }
 
     .nav-buscador input[type="text"] {
-        width: 400px; 
-        font-size: 14px;
-        padding: 8px; 
+        @apply w-[400px]; /* Reduce el ancho del input */
     }
 
     .nav-buscador button {
-        width: 120px; 
-        padding: 8px; 
-        font-size: 14px; 
-    }
-
-    .nav-links a {
-        font-size: 14px; 
-    }
-}
-
-/* Pantallas menores a 768px */
-@media screen and (max-width: 768px) {
-    .nav-logo img {
-        width: 60px; 
-    }
-
-    .nav-buscador input[type="text"] {
-        width: 300px;
-        font-size: 14px;
-    }
-
-    .nav-buscador button {
-        width: 100px;
-        padding: 6px; 
-        font-size: 12px; 
-    }
-
-    .nav-links a {
-        font-size: 12px; 
-        padding: 8px; 
-    }
-}
-
-/* Media query para pantallas muy pequeñas (menores a 576px) */
-@media screen and (max-width: 576px) {
-    .nav-logo img {
-        width: 50px; 
-    }
-
-    .nav-buscador input[type="text"] {
-        width: 200px; 
-        padding: 6px; 
-        font-size: 12px; 
-    }
-
-    .nav-buscador button {
-        width: 90px; 
-        padding: 6px; 
-        font-size: 12px; 
+        @apply w-[120px] text-sm; /* Reduce el ancho y el tamaño de la fuente del botón */
     }
 
     .nav-links {
-        flex-direction: column; 
-        align-items: flex-start; 
+        @apply flex-col space-y-2 space-x-0; /* Coloca los enlaces en columna y agrega espaciado vertical */
     }
 
     .nav-links a {
-        font-size: 12px; 
-        padding: 6px; 
+        @apply text-base ml-0; /* Ajusta el tamaño de fuente y elimina el margen izquierdo */
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar {
+        @apply px-2 py-1; /* Reduce aún más el padding */
     }
 
-    .nav-links a:nth-child(2) {
-        margin-left: 0; 
-        margin-top: 5px; 
+    .nav-logo img {
+        @apply w-[60px]; /* Reduce el tamaño del logo en pantallas muy pequeñas */
+    }
+
+    .nav-buscador input[type="text"] {
+        @apply w-[130px] text-sm; /* Reduce aún más el ancho y tamaño de fuente del input */
+    }
+
+    .nav-buscador button {
+        @apply w-[90px] text-sm; /* Reduce el ancho y el tamaño de fuente del botón */
+    }
+
+    .nav-links {
+        @apply flex-col ; /* Coloca los enlaces en columna y los alinea al inicio */
+    }
+    .nav-links a {
+        @apply p-0.5  ; /* Coloca los enlaces en columna y los alinea al inicio */
     }
 }

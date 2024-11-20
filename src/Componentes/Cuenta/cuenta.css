@@ -1,39 +1,29 @@
-.cuenta{
-    margin-top: 100px;
-}
-.cuenta-btn {
-    display: flex; /* Usar flexbox para el diseño */
-    flex-direction: column; /* Alinear elementos verticalmente */
-    width: 20%; /* Ancho del formulario */
-    margin: 0 auto; /* Centrar el formulario horizontalmente */
-    padding: 10px;
-    border-radius: 5px; /* Bordes redondeados */
-    margin-bottom: 200px;
-    margin-top: 100px;
+/* Archivo CSS usando @apply en Tailwind con clases responsivas */
+
+.cuenta {
+    @apply mt-36;
 }
 
+.cuenta-btn {
+    @apply flex flex-col w-4/5 mx-auto p-2.5 rounded mb-48 mt-24; /* Estilo base para móviles */
+}
+
+@screen md {
+    .cuenta-btn {
+        @apply w-2/5; /* Ancho medio en pantallas medianas */
+    }
+}
+
+@screen lg {
+    .cuenta-btn {
+        @apply w-1/5; /* Ancho más estrecho en pantallas grandes */
+    }
+}
 
 .btn {
-    align-self: center; /*contenedor al centro*/
-    align-items: center; /* texto centrado*/
-    width: 200px; /* Ancho completo para el botón */
-    padding: 10px; /* Espaciado interno */
-    background-color: #5fa25b; /* Color de fondo del botón */
-    color: white; /* Color del texto del botón */
-    border: none;  /* Sin borde */
-    border-radius: 3px; /* Bordes redondeados */
-    margin: 10px;
+    @apply self-center items-center w-full md:w-[200px] p-2.5 bg-[#5fa25b] text-white border-none rounded-sm m-2.5;
 }
-.btn-salir{
-    align-self: center; /*contenedor al centro*/
-    align-items: center; /* texto centrado*/
-    width: 200px; /* Ancho completo para el botón */
-    padding: 10px; /* Espaciado interno */
-    background-color: #bbbfbb6f; /* Color de fondo del botón */
-    color: white; /* Color del texto del botón */
-    border: none;  /* Sin borde */
-    border-radius: 3px; /* Bordes redondeados */
-    margin: 10px;
 
-
+.btn-salir {
+    @apply self-center items-center w-full md:w-[200px] p-2.5 bg-[#bbbfbb6f] text-white border-none rounded-sm m-2.5;
 }

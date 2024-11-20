@@ -74,8 +74,10 @@ export function PagInicioSesion() {
     };
 
     return (
-        <div>
+        <div >
+            <div className="container-logo">
             <img src={logo} alt="Logo" className="Logo" />
+            </div>
             <form className="form" onSubmit={handleFormSubmit}>
                 <input 
                     type="text" 

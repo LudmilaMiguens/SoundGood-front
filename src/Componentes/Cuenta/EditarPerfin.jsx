@@ -60,6 +60,7 @@ function EditaPerfil() {
     }));
   };
 
+<<<<<<< HEAD
   // Manejo del envío del formulario (actualización de perfil)
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -162,6 +163,60 @@ function EditaPerfil() {
       </div>
     </>
   );
+=======
+                <h1 className='editar-perfil'>Editar perfil</h1>
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        <label>Nombre:</label>
+                        <input className='input-editar-Perfil'
+                            type="text"
+                            name="nombre"
+                            value={cliente.nombre}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div>
+                        <label>Email:</label>
+                        <input className='input-editar-Perfil'
+                            type="email"
+                            name="email"
+                            value={cliente.email}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div>
+                        <label>Contraseña:</label>
+                        <input className='input-editar-Perfil'
+                            type="password"
+                            name="contraseña"
+                            value={cliente.contraseña}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div>
+                        <label>Fecha de Nacimiento:</label>
+                        <input className='input-editar-Perfil'
+                            type="date"
+                            name="fechaDeNacimiento"
+                            value={cliente.fechaDeNacimiento}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <button className="btn-guardar" type="submit">Guardar Cambios</button>
+                    <div className="error-message">
+                        {mensajeGuardado && <p className="mensaje-guardado">Sus cambios han sido guardados</p>}
+                    </div> 
+                    <Link to="/cuenta">
+                            <button className="btn-regresar">Regresar a cuenta</button>
+                        </Link>
+                </form>
+            </div>
+            <div>
+                <Footer />
+            </div>
+        </>
+    );
+>>>>>>> 38155319272aee3669d36234fe0d5eb1e211d009
 }
 
 export default EditaPerfil;

@@ -1,145 +1,73 @@
-.biblioteca{
-    margin-top: 100px;
+/* Archivo: styles.css */
+
+.biblioteca {
+    @apply mt-36;
 }
-.favorites-list,.playlist-list {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    align-items:start; 
+.section-title {
+    @apply w-[200px] mb-10;
+}
+.favorites-list,
+.playlist-list {
+    @apply flex flex-col gap-1 items-start  w-[370px];
 }
 
- .favorite-item, .playlist-item {
-    cursor: pointer;
-    margin-left: 15px;
-    border: 1px solid #5fa25b; /* Borde verde */
-    border-radius: 5px; /* Bordes redondeados */
-    max-width: 400px; /* Ancho máximo del elemento */
-    width: 100%; /* Ancho completo del contenedor */
-    box-sizing: border-box; /* Incluye padding y border en el tamaño total */
-    background-color: #ffffff; /* Fondo blanco */
-    color: #000000; /* Texto negro */
-    padding: 10px; /* Añade padding para mayor comodidad visual */
-    font-size: 16px; /* Ajusta el tamaño de la fuente si es necesario */
-    display: flex; /* Usa Flexbox si necesitas alinear contenido dentro del elemento */
-    align-items: center; /* Centra el contenido verticalmente si es necesario */
-    text-decoration: none; /* Quita subrayado si es un enlace */
+.favorite-item,
+.playlist-item {
+    @apply cursor-pointer ml-4 rounded max-w-[400px] w-full box-border bg-white text-black p-2 text-lg;
 }
 
 .create-playlist-button {
-    background-color: #5fa25b; /* Cambia este color al que prefieras */
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 200px;
-    font-size: 16px;
-    width: 150px;
-
+    @apply bg-[#5fa25b] text-white py-2 px-5 border-none rounded cursor-pointer mb-20 text-lg w-[150px];
 }
+
 .create-playlist-button:hover {
-    background-color: #2b7427; /* Color al pasar el ratón por encima */
+    @apply bg-[#2b7427];
 }
 
-.playlist-title{
-    display: flex;
-    flex-direction: column;
-    align-items:start; 
-    margin-left: 15px;
-    cursor: pointer;
-    color:#5fa25b;
-   
+.playlist-title {
+    @apply flex flex-col items-start ml-4 mb-4 cursor-pointer text-lg font-bold text-[#5fa25b] ;
 }
-
-/* Estilos para el modal */
 
 .modal-playlist {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 40%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; /* Asegura que el modal esté en frente de otros elementos */
-    
+    @apply fixed top-14 w-full h-2/5 flex justify-center items-center z-[1000] ;
 }
 
-/* Contenido del modal */
 .modal-content-playlist {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-   
-    width: 300px;
-    max-width: 80%;
-    max-height: 90vh; /* Evita que el modal sea demasiado alto */
-    overflow-y: auto; /* Permite desplazarse si el contenido es demasiado alto */
-    text-align: center;
+    @apply bg-white p-5 rounded-lg w-[300px] max-w-[80%] max-h-[90vh] overflow-y-auto text-center;
 }
 
 .modal-content-playlist h3 {
-    margin-bottom: 15px;
-    font-size: 20px;
-    color: #021a01;
+    @apply mb-4 text-xl font-bold text-[#021a01];
 }
 
 .modal-content-playlist input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-   
+    @apply w-full p-2 mb-4 border border-gray-300 rounded text-lg;
 }
 
 .modal-content-playlist button {
-    padding: 10px 20px;
-    margin: 5px;
-    border: none;
-    border-radius: 5px;
-    background-color: #5fa25b; /* Color de los botones */
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    @apply m-1 border-none w-[100px] rounded bg-[#5fa25b] text-white text-lg cursor-pointer transition-colors duration-300 ease-in-out;
 }
 
 .modal-content-playlist button:hover {
-    background-color: #2b7427; /* Cambio de color al pasar el cursor */
+    @apply bg-[#2b7427];
 }
 
 .modal-content-playlist button:last-child {
-    background-color: #f44336; /* Botón de cancelar en rojo */
+    @apply bg-red-500;
 }
 
 .modal-content-playlist button:last-child:hover {
-    background-color: #cc2926;
+    @apply bg-red-600;
 }
 
-/* Estilos para la tarjeta de la canción seleccionada */
 .card-playlist {
-    margin: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    @apply my-5 flex flex-col items-center;
 }
 
 .card-playlist .SongCard {
-    width: 100%;
-    max-width: 600px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+    @apply w-full max-w-[600px] p-5 bg-[#f9f9f9] border border-gray-300 rounded-lg shadow-lg mb-5;
 }
 
-
-/* Estilos para el reproductor */
 .reproductor {
-    width: 100%;
+    @apply w-full;
 }

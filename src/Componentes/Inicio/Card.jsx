@@ -12,21 +12,20 @@ export function SongCard({ url, title, tags= [], onClick, image, artist, onFavor
         onFavorite();
     };
 
+
     return (
         <div className="song-card" onClick={onClick}>
             <div className="image-container">
                 <img src={image} alt={artist} className="artist-image" />
             </div>
-            <h3>{title}</h3>
-            {/* Verifica si `tags` es un array y lo usa en `.join()` */}
-            <p>{Array.isArray(tags) ? tags.join(', ') : ''}</p>
+            <h3 className="song-title">{title}</h3>
+            <p className="song-tags">{Array.isArray(tags) ? tags.join(', ') : ''}</p>
             <div className="button-container">
                 <button
                     className="favorite-button"
                     onClick={handleFavoriteClick}
-                    style={{ border: 'none', cursor: 'pointer' }}
                 >
-                    <FontAwesomeIcon icon={faHeart} style={{ color: isFavorite ? 'red' : 'white' }} />
+                    <FontAwesomeIcon icon={faHeart} className={isFavorite ? 'text-red-500' : 'text-white'} />
                 </button>
                 <button
                     className="add-button"
@@ -34,7 +33,6 @@ export function SongCard({ url, title, tags= [], onClick, image, artist, onFavor
                         e.stopPropagation();
                         onAddToPlaylist();
                     }}
-                    style={{ border: 'none', cursor: 'pointer' }}
                 >
                     <FontAwesomeIcon icon={faPlus} />
                 </button>

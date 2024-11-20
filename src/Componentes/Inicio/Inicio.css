@@ -1,88 +1,57 @@
-.home{
-    margin-top: 100px;
-}/* Estilo para la superposición del modal */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro con opacidad */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
-    font-family: inherit;
-}
 
-/* Estilo para el contenedor del modal */
-.Modal-playlist {
-    background-color: #fff; /* Fondo blanco para el modal */
-    border-radius: 8px; /* Bordes redondeados */
-    padding: 20px;
-    width: 300px; /* Ancho del modal */
-    text-align: center; /* Centrar texto */
-}
-
-/* Estilo para el título del modal */
-.Modal-playlist h2 {
-    margin-bottom: 20px; /* Espaciado inferior */
-    color:#021a01 ; /* Color del texto */
-}
-
-/* Estilo para el dropdown */
-.modal-select-playlist {
-    width: 100%; /* Ancho completo */
-    padding: 10px; /* Espaciado interno */
-    margin-bottom: 20px; /* Espaciado inferior */
-    border: 1px solid #5fa25b; /* Borde gris claro */
-    border-radius: 4px; /* Bordes redondeados */
-    font-size: 16px; /* Tamaño de fuente */
-background-color: #5fa25b ;
-color:white;
-}
-
-
-/* Estilo para los botones */
-.modal-buttons {
-    display: flex;
-    justify-content: space-between; /* Espacio entre los botones */
-}
-
-.modal-buttons button {
-    padding: 10px 15px; /* Espaciado interno de los botones */
-    border: none; /* Sin borde */
-    border-radius: 4px; /* Bordes redondeados */
-    cursor: pointer; /* Cambiar cursor a mano */
-    font-size: 16px; /* Tamaño de fuente */
-}
-
-.modal-buttons button:hover {
-    background-color: #f0f0f0; /* Cambiar fondo al pasar el ratón */
-}
-
-.modal-buttons button:nth-child(1) {
-    background-color: #5fa25b; /* Color de fondo del botón "Añadir" */
-    color: white; /* Color del texto */
-}
-
-.modal-buttons button:nth-child(2) {
-    background-color: #f44336; /* Color de fondo del botón "Cancelar" */
-    color: white; /* Color del texto */
-}
-
-.modal-buttons button:nth-child(1):hover {
-    background-color: #2b7427; /* Fondo más oscuro al pasar el ratón */
-}
-
-.modal-buttons button:nth-child(2):hover {
-    background-color: #cc2926; /* Fondo más oscuro al pasar el ratón */
-}
-
-
-.error-message {
-    color: rgb(255, 255, 255);
-    font-size: 14px;
-    margin-top: 20px;
   
-}
+  .home {
+    @apply mt-24;
+  }
+  
+  /* Estilo para la superposición del modal */
+  .modal-overlay {
+    @apply fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-[1000];
+  }
+  
+  /* Estilo para el contenedor del modal */
+  .Modal-playlist {
+    @apply bg-white p-5 rounded-lg w-[300px] max-w-[80%] max-h-[90vh] overflow-y-auto text-center;
+  
+  }
+  
+  /* Estilo para el título del modal */
+  .Modal-playlist h2 {
+    @apply mb-4 text-xl font-bold text-black no-underline;
+  }
+  
+  /* Estilo para el dropdown */
+  .modal-select-playlist {
+    @apply w-full p-2 mb-4 border border-gray-300 rounded text-lg;
+  }
+  
+  /* Estilo para los botones */
+  
+  .modal-buttons button {
+    @apply m-1 w-[100px] border-none rounded cursor-pointer text-base;
+  }
+  
+  .modal-buttons button:hover {
+    @apply bg-gray-200;
+  }
+  
+  .modal-buttons button:nth-child(1) {
+    @apply bg-[#5fa25b] text-white;
+  }
+  
+  .modal-buttons button:nth-child(2) {
+    @apply bg-red-500 text-white;
+  }
+  
+  .modal-buttons button:nth-child(1):hover {
+    @apply bg-[#2b7427];
+  }
+  
+  .modal-buttons button:nth-child(2):hover {
+    @apply bg-red-600;
+  }
+  
+  .error-message {
+    @apply text-black text-sm mt-5;
+  }
+  

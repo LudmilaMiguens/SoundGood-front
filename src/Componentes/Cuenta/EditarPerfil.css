@@ -1,72 +1,48 @@
+/* Archivo CSS usando @apply en Tailwind con clases responsivas */
+
+.container-editar-perfil {
+  @apply w-11/12 max-w-3xl mx-auto p-12 rounded-lg h-1/2 mt-24 text-left;
+}
+.editar-perfil{
+  @apply text-white;
+}
+
+@screen md {
   .container-editar-perfil {
-    max-width: 35%;
-    margin: 50px auto;
-    padding: 50px;
-    border-radius: 8px;
-    height: 55%;
-    margin-top: 100px;
-    text-align: left;
+      @apply w-3/5; /* Más estrecho en pantallas medianas y grandes */
   }
+}
 
-  label {
-    margin-bottom: 8px;
-    color: #ffffff;
+@screen lg {
+  .container-editar-perfil {
+      @apply w-2/5; /* Aún más estrecho en pantallas grandes */
   }
+}
 
-  form {
-    display: flex;
-    flex-direction: column;
-  }
+label {
+  @apply mb-2 text-white;
+}
 
-  .input-editar-Perfil {
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    width: 100%;
-  }
+form {
+  @apply flex flex-col;
+}
 
-  .contenedor-premium {
-    margin-bottom: 100px;
-    margin-top: 100px;
+.input-editar-Perfil {
+  @apply p-2.5 mb-5 border border-gray-300 rounded w-full;
+}
 
-  }
-  .btn-guardar{
-    align-self: center; /*contenedor al centro*/
-    align-items: center; /* texto centrado*/
-    width: 100%; /* Ancho completo para el botón */
-    padding: 10px; /* Espaciado interno */
-    background-color:#5fa25b; /* Color de fondo del botón */
-    color: white; /* Color del texto del botón */
-    border: none;  /* Sin borde */
-    border-radius: 3px; /* Bordes redondeados */
-  }
-    .btn-guardar{
-    align-self: center; /*contenedor al centro*/
-    align-items: center; /* texto centrado*/
-    width: 100%; /* Ancho completo para el botón */
-    padding: 10px; /* Espaciado interno */
-    background-color:#5fa25b; /* Color de fondo del botón */
-    color: white; /* Color del texto del botón */
-    border: none;  /* Sin borde */
-    border-radius: 3px; /* Bordes redondeados */
-  }
-  .btn-regresar{
-    align-items: center; /* texto centrado*/
-    width: 100%; /* Ancho completo para el botón */
-    padding: 10px; /* Espaciado interno */
-    background-color:#bbbfbb6f; /* Color de fondo del botón */
-    color: white; /* Color del texto del botón */
-    border: none;  /* Sin borde */
-    border-radius: 3px; /* Bordes redondeados */
-  }
-  .btn-regresar-premium{
-    align-items: center; /* texto centrado*/
-    width: 29%; /* Ancho completo para el botón */
-    padding: 10px; /* Espaciado interno */
-    background-color:#bbbfbb6f; /* Color de fondo del botón */
-    color: white; /* Color del texto del botón */
-    border: none;  /* Sin borde */
-    border-radius: 3px; /* Bordes redondeados */
+.contenedor-premium {
+  @apply mb-24 mt-24;
+}
 
-  }
+.btn-guardar {
+  @apply self-center items-center w-full p-2.5 bg-[#5fa25b] text-white border-none rounded;
+}
+
+.btn-regresar {
+  @apply items-center w-full p-2.5 bg-[#bbbfbb6f] text-white border-none rounded;
+}
+
+.btn-regresar-premium {
+  @apply items-center w-1/3 p-2.5 bg-[#bbbfbb6f] text-white border-none rounded;
+}
