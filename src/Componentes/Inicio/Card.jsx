@@ -19,8 +19,8 @@ export function SongCard({ url, title, tags= [], onClick, image, artist, onFavor
                 <img src={image} alt={artist} className="artist-image" />
             </div>
             <h3 className="song-title">{title}</h3>
-            <p className="song-tags">{Array.isArray(tags) ? tags.join(', ') : ''}</p>
-            <div className="button-container">
+            <p className="song-tags">{tags}</p>           
+             <div className="button-container">
                 <button
                     className="favorite-button"
                     onClick={handleFavoriteClick}

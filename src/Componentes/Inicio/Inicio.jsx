@@ -24,50 +24,109 @@ export function Inicio({ redirectToAcercaDe, redirectToPlanPremium, redirectToVe
     const [errorMessage, setErrorMessage] = useState('');
     const { currentSong, setCurrentSong } = usePlayer();
 
-    useEffect(() => {
+   /* useEffect(() => {
         //obtener las canciones de top10
         const obtenerTop10 = async () => {
             try {
-                const response = await fetch('http://localhost:8080/top10', {
+                const response = await fetch('http://localhost:8080/top10/todos', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 });
                 if (!response.ok) throw new Error('Error al obtener los datos de top 10');
-                const data = await response.json();
-                setTop10(data[0]?.canciones || []);
-                // setTop10(data.flatMap(top10 => top10.canciones));
-                console.log(data[0].canciones)
-                //console.log(data);
-            } catch (error) {
-                console.error('Error al obtener las canciones de top 10', error.message);
-            }
-        };
-        obtenerTop10();
-    }, []);
+                const data =
+                // Verificamos que existan canciones
+                if (data.length > 0 && data[0].cancionId?.length > 0) {
+                    const canciones = data[0].cancionId.map((cancion) => {
+                        return {
+                            titulo: cancion.titulo,
+                            genero: cancion.genero?.nombre || "Desconocido",
+                            artistas: cancion.artistas.map((artista) => artista.nombre).join(", "),
+                            imagen: cancion.imageFilename || "default-image.jpg",
+                            archivoCancion: cancion.songFilename || "default-song.mp3",
+                        };
+                    });
+                     }
 
-    useEffect(() => {
-        //obtener las canciones de tendencias
-        const obtenerTendencias = async () => {
-            try {
-                const response = await fetch('http://localhost:8080/tendencias', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
+                    console.log(canciones);
+                    /* const data = await response.json();
+                     console.log(data);
+                     setTop10(data.flatMap(top10 => top10.cancionId)); 
+                     //setTop10(data[0].canciones);
+                     // setTop10(data.flatMap(top10 => top10.canciones));
+                   console.log(data[0].canciones)
+                     //console.log(data);
+                {  else (error) {
+                    console.error('Error al obtener las canciones de top 10', error.message);
+                }
+            };
+            obtenerTop10();
+        }, []);*/ 
+        useEffect(() => {
+            // Obtener las canciones de Top 10
+            const obtenerTop10 = async () => {
+                try {
+                    const response = await fetch('http://localhost:8080/top10/todos', {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    if (!response.ok) throw new Error('Error al obtener los datos de top 10');
+                    
+                    const data = await response.json(); // Aquí se obtienen los datos reales de la API
+                    console.log('Datos recibidos:', data);
+        
+                    // Verificamos si hay datos en la respuesta
+                    if (data.length > 0 && data[0].cancionId?.length > 0) {
+                        const cancion = data[0].cancionId.map((canciones) => {
+                            return {
+                                titulo: canciones.titulo,
+                                genero: canciones.genero?.genero || "Desconocido",
+                                artistas: canciones.artistas.map((artista) => artista.nombre).join(", "),
+                                imagen: canciones.imageFilename || "default-image.jpg",
+                                archivoCancion: canciones.songFilename || "default-song.mp3",
+                            };
+                        });
+        
+                        console.log('Canciones procesadas:', cancion);
+                        setTop10(cancion); // Actualiza el estado con las canciones
+                    } else {
+                        console.warn('No se encontraron canciones en la respuesta.');
+                        setTop10([]); // Asegura que Top10 no tenga datos residuales
                     }
-                });
-                if (!response.ok) throw new Error('Error al obtener los datos de tendencia');
-                const data = await response.json();
-                setTop10(data[0].canciones);
-                console.log(data[0].canciones)
-            } catch (error) {
-                console.error('Error al obtener las canciones de tendencia', error.message);
-            }
-        };
-        obtenerTendencias();
-    }, []);
+                } catch (error) {
+                    console.error('Error al obtener las canciones de Top 10:', error.message);
+                }
+            };
+        
+            obtenerTop10();
+        }, []);
+        
 
+    /* useEffect(() => {
+         //obtener las canciones de tendencias
+         const obtenerTendencias = async () => {
+             try {
+                 const response = await fetch('http://localhost:8080/tendencias', {
+                     method: 'GET',
+                     headers: {
+                         'Content-Type': 'application/json'
+                     }
+                 });
+                 if (!response.ok) throw new Error('Error al obtener los datos de tendencia');
+                 const data = await response.json();
+                 setTendencias(data[0].canciones);
+               //  console.log(data[0].canciones)
+             } catch (error) {
+                 console.error('Error al obtener las canciones de tendencia', error.message);
+             }
+         };
+         obtenerTendencias();
+     }, []);
+ */
     const openModal = (song) => {
         setCurrentSong(song.songFilename); // Establece la canción en el contexto
         setIsModalOpen(true);
@@ -180,7 +239,7 @@ export function Inicio({ redirectToAcercaDe, redirectToPlanPremium, redirectToVe
                             key={index}
                             image={song.imageFilename}
                             title={song.titulo}
-                            tag={song.tag} // Traer el género
+                            tag={song.genero?.genero || 'Sin género'}// Traer el género
                             url={song.songFilename}
                             onClick={() => {
                                 setSelectedSongUrl(song.songFilename);
