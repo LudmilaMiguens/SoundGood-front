@@ -70,7 +70,7 @@ export function Inicio({ redirectToAcercaDe, redirectToPlanPremium, redirectToVe
         const token = localStorage.getItem('access_token');
 
         try {
-           const response = await fetch('http://localhost:8080/favoritos/agregar', {
+           const response = await fetch('http://localhost:8080/favoritos', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

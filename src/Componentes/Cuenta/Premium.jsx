@@ -43,19 +43,30 @@ function Premium() {
     };
     return (
         <>
-            <Nav className="nav-fixed" />
-            <main className="premium-main">
-                <h2 className="premium-title">Sound Good Premium</h2>
-                <button className="premium-button" onClick={handleBuyingProcess}>Pagar con Mercado Pago</button>
-                {preferenceId && (
-                    <Wallet
-                        initialization={{ preferenceId }}
-                        customization={{ texts: { valueProp: 'smart_option' } }}
-                    />
-                )}
-            </main>
-            <Footer className="footer-fixed" />
-        </>
+    <Nav className="nav-fixed" />
+    <main className="premium-main">
+        <h2 className="premium-title">Sound Good Premium</h2>
+        <p className="premium-description">
+            ¡Lleva tu experiencia musical al siguiente nivel con <strong>Sound Good Premium</strong>! 
+            Con este plan exclusivo, tendrás el poder de controlar tu música como nunca antes: 
+            salta a la siguiente canción, vuelve a la anterior o personaliza el orden de reproducción 
+            para escuchar tus canciones favoritas en el momento que desees. 
+            <br />
+            Vive la música a tu manera.
+        </p>
+        <button className="premium-button" onClick={handleBuyingProcess}>
+            Pagar con Mercado Pago
+        </button>
+        {preferenceId && (
+            <Wallet
+                initialization={{ preferenceId }}
+                customization={{ texts: { valueProp: 'smart_option' } }}
+            />
+        )}
+    </main>
+    <Footer className="footer-fixed" />
+</>
+
     );
 }
 export default Premium;
