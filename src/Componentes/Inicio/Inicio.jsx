@@ -101,13 +101,8 @@ export function Inicio({ redirectToAcercaDe, redirectToPlanPremium, redirectToVe
         } catch (error) {
             console.error('Error en la solicitud de agregar favoritos', error);
             setErrorMessage('Error al intentar agregra a favoritos. Inténtalo nuevamente.')
-
         }
-
     }
-
-
-
 
     const openModal = (song) => {
         setCurrentSong(song.url); // Establece la canción en el contexto
@@ -182,7 +177,10 @@ export function Inicio({ redirectToAcercaDe, redirectToPlanPremium, redirectToVe
                             tags={[song.genero]}
                             url={'http://localhost:8080/files/song/' + song.songFilename}
                             onClick={() => {
-                                setSelectedSongUrl({ url: 'http://localhost:8080/files/song/' + song.songFilename, title: song.titulo, tags: [song.genero] });
+                                setSelectedSongUrl({ url: 'http://localhost:8080/files/song/' + song.songFilename,
+                                     title: song.titulo, 
+                                     tags: [song.genero] 
+                                    });
                                 setCurrentSong(song.url); // Establece la canción en el contexto del reproductor
                             }}
                             onFavorite={() => addFavorites(song)}
