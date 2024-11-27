@@ -41,7 +41,6 @@ export function Inicio({ redirectToAcercaDe, redirectToPlanPremium, redirectToVe
             })
             .then(data => {
                 setSongsTop10(data[0].cancionId);
-                console.log(data[0].cancionId);
                 
             })
             .catch(error => {
