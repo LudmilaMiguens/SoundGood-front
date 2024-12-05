@@ -34,8 +34,6 @@ export const FavoritesProvider = ({ children }) => {
                     Swal.showLoading();
                 },
             });
-
-
             const res = await fetch(`${import.meta.env.VITE_API_URL}/canciones/favoritos/${song.cancionId}`, {
                 method: metodo,
                 headers: {
@@ -78,13 +76,6 @@ export const FavoritesProvider = ({ children }) => {
         }
     }
 
-
-    // Elimina una canción de los favoritos
-    /*const removeFavorite = (song) => {
-        setFavorites((prev) => prev.filter((fav) => fav.url !== song.url));
-    };*/
-
-
     const removeFavorite = async (song) => {
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL}/canciones/favoritos/${song.cancionId}`, {
@@ -117,14 +108,70 @@ export const FavoritesProvider = ({ children }) => {
             });
         }
     };
-    
 
 
+ // Función para crear una playlist
+ const createPlaylist = async (playlistName) => {
+    if (!playlists[playlistName]) {
+      setPlaylists(prevPlaylists => ({
+        ...prevPlaylists,
+        [playlistName]: []
+      }));
 
+      // Lógica para guardar en el backend
+      await fetch(`${import.meta.env.VITE_API_URL}/playlists`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ playlistName })
+      });
+    }
+  };
 
+  // Añadir canción a una playlist
+  const addSongToPlaylist = async (song, playlistName) => {
+    if (!playlists[playlistName]) {
+      await createPlaylist(playlistName);
+    }
+    setPlaylists(prevPlaylists => ({
+      ...prevPlaylists,
+      [playlistName]: [...(prevPlaylists[playlistName] || []), song]
+    }));
+
+    // Actualizar en el servidor
+    await fetch(`${import.meta.env.VITE_API_URL}/playlists/${playlistName}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ song })
+    });
+  };
+
+  // Eliminar canción de una playlist
+  const removeSongFromPlaylist = async (playlistName, song) => {
+    setPlaylists(prev => ({
+      ...prev,
+      [playlistName]: prev[playlistName].filter(item => item.cancionId !== song.cancionId)
+    }));
+
+    // Actualizar en el servidor
+    await fetch(`${import.meta.env.VITE_API_URL}/playlists/${playlistName}/delete`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ songId: song.cancionId })
+    });
+  };
+ 
 
     // Crea una nueva lista de reproducción si no existe.
-    const createPlaylist = (playlistName) => {
+    /*const createPlaylist = (playlistName) => {
         if (!playlists[playlistName]) {
             setPlaylists(prevPlaylists => ({
                 ...prevPlaylists,
@@ -155,7 +202,7 @@ export const FavoritesProvider = ({ children }) => {
             ...prev,
             [playlistName]: prev[playlistName].filter((item) => item.url !== song.url),
         }));
-    };
+    };*/
 
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API_URL}/canciones/favoritosByUser`,
@@ -180,6 +227,29 @@ export const FavoritesProvider = ({ children }) => {
             });
     }, []);
 
+    useEffect(() => {
+        fetch(`${import.meta.env.VITE_API_URL}/playlists`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+            }
+        )
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('La respuesta de la red no fue exitosa');
+            }
+            return response.json();
+        })
+        .then(data => {
+            setPlaylists(data);
+        })
+        .catch(error => {
+            console.error('Error al cargar las playlists:', error);
+        });
+}, []);
+    
     return (
         <FavoritesContext.Provider
             value={{

@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, } from "react";
 import "./Biblioteca.css";
 import { useFavorites } from '../Biblioteca/FavoritesContext';
 import '../Inicio/card.css';
 import ReproductorBuscador from '../Reproductor musica/ReproductorBuscador';
-import { SongCard } from '../Inicio/Card';
 import { usePlayer } from '../Reproductor musica/PlayerContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus } from '@fortawesome/free-solid-svg-icons';
@@ -54,21 +53,30 @@ export default function Biblioteca() {
                 <button className="create-playlist-button" onClick={() => setShowModal(true)}>Crear Playlist</button>
             </div>
             <div className="favorites-list">
-            <p className="section-title">Tus favoritos</p>
+                <p className="section-title">Tus favoritos</p>
                 {favorites.map((song, index) => (
                     <div
                         key={index}
                         className="favorite-item"
-                        onClick={() => { 
+                        onClick={() => {
                             handleSongClickSong(song)
                             setCurrentSong(song.url);
                         }} // Llama a la función para reproducir la canción
                     >
-                        <p>{song.titulo} </p>
-                         {/* Solo muestra el título */}
+                        <p>
+                            {song.titulo}
+                            {song.artistas.length > 0 && (
+                                <span> - {song.artistas.map((tag, index) => (
+                                    <span key={index}>
+                                        {tag.nombre}{index < song.artistas.length - 1 && ', '}
+                                    </span>
+                                ))}</span>
+                            )}
+                        </p>
+                        {/* Solo muestra el título */}
                         <button
                             className="remove-button"
-                            onClick={(e) => { 
+                            onClick={(e) => {
                                 e.stopPropagation(); // Evita que el botón active la reproducción
                                 removeFavorite(song); // Elimina la canción de favoritos
                             }}
@@ -88,7 +96,7 @@ export default function Biblioteca() {
                         <div className="playlist-list">
                             {playlists[name].map((song, songIndex) => (
                                 <div key={songIndex} className="playlist-item" onClick={() => handleSongClick(song)}>
-                                    <p>{songIndex + 1}. {song.title}</p>
+                                    <p>{songIndex + 1}. {song.titulo}</p>
                                     <button
                                         className="remove-button"
                                         onClick={(e) => {
