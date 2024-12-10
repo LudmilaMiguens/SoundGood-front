@@ -214,8 +214,6 @@ export const FavoritesProvider = ({ children }) => {
     };
     
     
-    
-
     // Elimina una canción de una lista de reproducción específica
     const removeSongFromPlaylist = (playlistName, song) => {
         setPlaylists((prev) => ({
