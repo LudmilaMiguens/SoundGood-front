@@ -3,10 +3,11 @@ import "./Biblioteca.css";
 import { useFavorites } from '../Biblioteca/FavoritesContext';
 import '../Inicio/card.css';
 import ReproductorBuscador from '../Reproductor musica/ReproductorBuscador';
-import { SongCard } from '../Inicio/Card';
 import { usePlayer } from '../Reproductor musica/PlayerContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus } from '@fortawesome/free-solid-svg-icons';
+import Swal from "sweetalert2";
+
 const Song = {
     titulo: '',
     tags: [],
@@ -16,20 +17,12 @@ const Song = {
 };
 
 export default function Biblioteca() {
-    const { favorites, playlists, createPlaylist, removeFavorite, removeSongFromPlaylist, verificarFavorito, addFavorites, setFavorites, setSelectedSongUrl, selectedSongUrl } = useFavorites(); // Incluye métodos de eliminación
+    const { favorites, playlists, setPlaylists, createPlaylist, removeFavorite, removeSongFromPlaylist, setSelectedSongUrl, selectedSongUrl } = useFavorites(); 
     const [selectedSong, setSelectedSong] = useState(Song); // Canción seleccionada actualmente.
     const [playlistName, setPlaylistName] = useState(''); // Nombre de la nueva lista de reproducción que se está creando.
     const [showModal, setShowModal] = useState(false); // Booleano para mostrar u ocultar el modal de creación de listas de reproducción.
     const [selectedPlaylist, setSelectedPlaylist] = useState(null); // Lista de reproducción seleccionada actualmente.
     const { setCurrentSong } = usePlayer(); // Utiliza el contexto del reproductor
-
-    const handleCreatePlaylist = () => {
-        if (playlistName.trim()) {
-            createPlaylist(playlistName.trim(), []); // Inicializa una lista vacía
-            setPlaylistName('');
-            setShowModal(false);
-        }
-    };
 
     const handleSongClick = (song) => {
         if (song && song.url) {
@@ -48,24 +41,41 @@ export default function Biblioteca() {
             tags: song.genero?.generos || [],
         });
     };
-    console.log (favorites)
+    const handleCreatePlaylist = async () => {
+        if (playlistName.trim()) {
+            try {
+                // Llama al método `crearPlaylist` del contexto con el título de la playlist
+                await createPlaylist(playlistName.trim(), setPlaylists); // Limpia el campo de entrada y cierra el modal
+                setPlaylistName('');
+                setShowModal(false);
+            } catch (error) {
+                console.error('Error al crear la playlist:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al crear la playlist',
+                    text: error.message || 'Hubo un problema al intentar crear la playlist.',
+                    confirmButtonText: 'Aceptar',
+                });
+            }
+        }
+    };
     return (
         <div className="biblioteca">
             <div className="flex justify-center">
                 <button className="create-playlist-button" onClick={() => setShowModal(true)}>Crear Playlist</button>
             </div>
             <div className="favorites-list">
-            <p className="section-title">Tus favoritos</p>
+                <p className="section-title">Tus favoritos</p>
                 {favorites.length > 0 && favorites.map((song, index) => (
                     <div
                         key={index}
                         className="favorite-item"
-                        onClick={() => { 
+                        onClick={() => {
                             handleSongClickSong(song)
                             setCurrentSong(song.url);
                         }} // Llama a la función para reproducir la canción
                     >
-                       <p>
+                        <p>
                             {song.titulo}
                             {song.artistas.length > 0 && (
                                 <span> - {song.artistas.map((tag, index) => (
@@ -77,7 +87,7 @@ export default function Biblioteca() {
                         </p>
                         <button
                             className="remove-button"
-                            onClick={(e) => { 
+                            onClick={(e) => {
                                 e.stopPropagation(); // Evita que el botón active la reproducción
                                 removeFavorite(song); // Elimina la canción de favoritos
                             }}
@@ -98,13 +108,13 @@ export default function Biblioteca() {
                             {playlists[name].map((song, songIndex) => (
                                 <div key={songIndex} className="playlist-item" onClick={() => handleSongClick(song)}>
                                     <p>{songIndex + 1}. {song.titulo}
-                                    {song.artistas.length > 0 && (
-                                <span> - {song.artistas.map((tag, index) => (
-                                    <span key={index}>
-                                        {tag.nombre}{index < song.artistas.length - 1 && ', '}
-                                    </span>
-                                ))}</span>
-                            )}
+                                        {song.artistas.length > 0 && (
+                                            <span> - {song.artistas.map((tag, index) => (
+                                                <span key={index}>
+                                                    {tag.nombre}{index < song.artistas.length - 1 && ', '}
+                                                </span>
+                                            ))}</span>
+                                        )}
                                     </p>
                                     <button
                                         className="remove-button"

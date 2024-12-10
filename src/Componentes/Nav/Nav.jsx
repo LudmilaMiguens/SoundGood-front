@@ -22,13 +22,12 @@ export default function Nav() {
     const [isSearchModalOpen, setSearchModalOpen] = useState(false);  // Modal de búsqueda
     const [isPlaylistModalOpen, setPlaylistModalOpen] = useState(false); // Modal de agregar a playlist
     const [cancionesTracks, setCancionesTracks] = useState([]);
-    const { addFavorites,verificarFavorito, addSongToPlaylist, playlists } = useFavorites();
+    const { addFavorites,verificarFavorito, addSongToPlaylist, playlists, favorites, setFavorites} = useFavorites();
     const [playlistName, setPlaylistName] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     //const [currentSong, setCurrentSong] = useState(null);
     const { setCurrentSong } = usePlayer();
     const [selectedPlaylist, setSelectedPlaylist] = useState(''); // Playlist seleccionada
-    const [favorites, setFavorites] = useState([]);
     const [selectedSongUrl, setSelectedSongUrl] = useState({});
 
     useEffect(() => {

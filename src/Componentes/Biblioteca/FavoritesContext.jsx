@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, } from 'react';
 import Swal from "sweetalert2";
 // Crear el contexto
 const FavoritesContext = createContext();
@@ -10,7 +10,7 @@ export const FavoritesProvider = ({ children }) => {
     const [playlists, setPlaylists] = useState({});
     const [selectedSongUrl, setSelectedSongUrl] = useState({});
 
-   
+
     // Añade una canción a los favoritos si no está ya en la lista.
     const verificarFavorito = (data, cancionId) => {
         const existe = data.some(objeto => objeto.cancionId === cancionId);
@@ -35,7 +35,6 @@ export const FavoritesProvider = ({ children }) => {
                 },
             });
 
-
             const res = await fetch(`${import.meta.env.VITE_API_URL}/canciones/favoritos/${song.cancionId}`, {
                 method: metodo,
                 headers: {
@@ -44,7 +43,6 @@ export const FavoritesProvider = ({ children }) => {
                 },
             });
 
-         
             // Validar la respuesta
             if (res.ok) {
                 if (metodo === "POST") {
@@ -52,7 +50,6 @@ export const FavoritesProvider = ({ children }) => {
                         const updatedFavorites = [...prevFavorites, song];
                         return updatedFavorites;
                     });
-                    
                     Swal.fire({
                         icon: 'success',
                         title: '¡Favorito guardado!',
@@ -91,7 +88,7 @@ export const FavoritesProvider = ({ children }) => {
                     'Content-Type': 'application/json',
                 },
             });
-    
+
             if (res.ok) {
                 // Si la eliminación fue exitosa, actualiza el estado de favoritos
                 setFavorites((prevFavorites) => prevFavorites.filter((fav) => fav.cancionId !== song.cancionId));
@@ -115,19 +112,46 @@ export const FavoritesProvider = ({ children }) => {
         }
     };
 
-
-    // Crea una nueva lista de reproducción si no existe.
-    const createPlaylist = (playlistName) => {
+    // Crea una nueva lista de reproducción si no existe y la envía al backend.
+    const createPlaylist = async (playlistName) => {
+        // Verifica si la playlist ya existe localmente
         if (!playlists[playlistName]) {
+            // Actualiza localmente las playlists
             setPlaylists(prevPlaylists => ({
                 ...prevPlaylists,
                 [playlistName]: []
             }));
+
+            try {
+                const token = localStorage.getItem('access_token'); //aca obtenemos el token que contiene el id del usuario
+
+                // Realiza la solicitud POST al backend para crear la playlist
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/playlists`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}` // Asegúrate de reemplazar `token` con tu token de autenticación
+                    },
+                    body: JSON.stringify({ title: playlistName })
+                });
+
+                if (!response.ok) {
+                    // Manejo de errores si el backend responde con un error
+                    const errorData = await response.json();
+                    console.error('Error al crear la playlist:', errorData.message);
+                    alert(`Error: ${errorData.message}`);
+                } else {
+                    const createdPlaylist = await response.json();
+                    console.log('Playlist creada exitosamente:', createdPlaylist);
+                }
+            } catch (error) {
+                console.error('Error al realizar la solicitud al backend:', error);
+                alert('Ocurrió un error al intentar crear la playlist.');
+            }
         }
     };
-
     // Añade una canción a una lista de reproducción existente.
-    const addSongToPlaylist = (song, playlistName) => {
+    /*const addSongToPlaylist = (song, playlistName) => {
         if (!playlists[playlistName]) {
             createPlaylist(playlistName);
         }
@@ -140,7 +164,57 @@ export const FavoritesProvider = ({ children }) => {
                 [playlistName]: updatedPlaylist
             };
         });
+    };*/
+
+
+    const addSongToPlaylist = async (song, playlistId) => {
+        try {
+            const token = localStorage.getItem('access_token');  // Obtén el token
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/playlists/${playlistId}/cancion/${song.cancionId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+    
+            // Verificar si la respuesta es exitosa
+            if (!response.ok) {
+                throw new Error( 'Error al agregar la canción a la playlist');
+            }
+    
+            // Verifica si la respuesta tiene contenido antes de parsearla
+            const responseBody = await response.json();
+            if (responseBody) {
+                const updatedPlaylist = JSON.parse(responseBody);  // Parsear solo si hay contenido
+                console.log(updatedPlaylist,"acaaa");  // Verifica la información de la playlist
+                setPlaylists(prevPlaylists => ({
+                    ...prevPlaylists,
+                    [updatedPlaylist.title]: updatedPlaylist.canciones,  // Actualiza la playlist
+                }));
+    
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Canción agregada',
+                    text: 'La canción se ha agregado a la playlist correctamente.',
+                    confirmButtonText: 'Aceptar',
+                });
+            } else {
+                throw new Error('Respuesta vacía del servidor');
+            }
+        } catch (error) {
+            console.error('Error al agregar la canción:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al agregar la canción',
+                text: error.message || 'Hubo un problema al intentar agregar la canción.',
+                confirmButtonText: 'Aceptar',
+            });
+        }
     };
+    
+    
+    
 
     // Elimina una canción de una lista de reproducción específica
     const removeSongFromPlaylist = (playlistName, song) => {
@@ -150,7 +224,7 @@ export const FavoritesProvider = ({ children }) => {
         }));
     };
 
- 
+
     return (
         <FavoritesContext.Provider
             value={{
@@ -160,6 +234,7 @@ export const FavoritesProvider = ({ children }) => {
                 verificarFavorito,
                 removeFavorite,
                 playlists,
+                setPlaylists,
                 createPlaylist,
                 addSongToPlaylist,
                 removeSongFromPlaylist,
