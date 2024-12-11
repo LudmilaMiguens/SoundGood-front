@@ -83,6 +83,33 @@ export default function Inicio() {
             });
     }, []);
 
+    
+    useEffect(() => {
+        const token = localStorage.getItem('access_token');  // Obtén el token
+        fetch(`${import.meta.env.VITE_API_URL}/playlists`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+            }
+        )
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('La respuesta de la red no fue exitosa');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setPlaylists(data);
+                if (data.length > 0) {
+                    setSelectedPlaylist(data[0]);
+                }
+            })
+            .catch(error => {
+                console.error('Error cargando los Playlists:', error);
+            });
+    }, []); 
 
     const openModal = (song) => {
         setCurrentSong(song.url); // Establece la canción en el contexto
@@ -217,7 +244,7 @@ export default function Inicio() {
                         onChange={(e) => setSelectedPlaylist(e.target.value)}
                     >
                         <option value="">Selecciona una playlist</option>
-                        {playlists.map((playlist) => (
+                        {playlists.length > 0 && playlists.map((playlist) => (
                             <option key={playlist.playlistId} value={playlist.playlistId}>{playlist.title}</option>
                         ))}
                     </select>

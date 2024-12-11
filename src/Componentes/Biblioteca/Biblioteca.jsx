@@ -21,7 +21,7 @@ export default function Biblioteca() {
     const [selectedSong, setSelectedSong] = useState(Song); // Canción seleccionada actualmente.
     const [playlistName, setPlaylistName] = useState(''); // Nombre de la nueva lista de reproducción que se está creando.
     const [showModal, setShowModal] = useState(false); // Booleano para mostrar u ocultar el modal de creación de listas de reproducción.
-    const [selectedPlaylist, setSelectedPlaylist] = useState([]); // Lista de reproducción seleccionada actualmente.
+    const [selectedPlaylist, setSelectedPlaylist] = useState({}); // Lista de reproducción seleccionada actualmente.
     const [selectedPlaylistItems, setSelectedPlaylistItems] = useState([]); // Items de la Lista de reproducción seleccionada actualmente.
 
     const { setCurrentSong } = usePlayer(); // Utiliza el contexto del reproductor
@@ -81,6 +81,7 @@ export default function Biblioteca() {
             .then(data => {
                 setPlaylists(data);
                 if (data.length > 0) {
+                    console.log(data[0]);
                     setSelectedPlaylist(data[0]);
                 }
             })
@@ -162,13 +163,13 @@ export default function Biblioteca() {
                             {selectedPlaylistItems.length > 0 && selectedPlaylistItems.map((song, songIndex) => (
                                 <div key={songIndex} className="playlist-item" onClick={() => handleSongClick(song)}>
                                     <p>{songIndex + 1}. {song.titulo}
-                                        {song.artistas.length > 0 && (
+                                        {/* {song.artistas.length > 0 && (
                                             <span> - {song.artistas.map((tag, index) => (
                                                 <span key={index}>
                                                     {tag.nombre}{index < song.artistas.length - 1 && ', '}
                                                 </span>
                                             ))}</span>
-                                        )}
+                                        )} */}
                                     </p>
                                     <button
                                         className="remove-button"
