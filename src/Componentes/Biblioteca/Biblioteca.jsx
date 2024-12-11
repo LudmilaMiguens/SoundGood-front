@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Biblioteca.css";
 import { useFavorites } from '../Biblioteca/FavoritesContext';
 import '../Inicio/card.css';
@@ -21,7 +21,9 @@ export default function Biblioteca() {
     const [selectedSong, setSelectedSong] = useState(Song); // Canción seleccionada actualmente.
     const [playlistName, setPlaylistName] = useState(''); // Nombre de la nueva lista de reproducción que se está creando.
     const [showModal, setShowModal] = useState(false); // Booleano para mostrar u ocultar el modal de creación de listas de reproducción.
-    const [selectedPlaylist, setSelectedPlaylist] = useState(null); // Lista de reproducción seleccionada actualmente.
+    const [selectedPlaylist, setSelectedPlaylist] = useState([]); // Lista de reproducción seleccionada actualmente.
+    const [selectedPlaylistItems, setSelectedPlaylistItems] = useState([]); // Items de la Lista de reproducción seleccionada actualmente.
+
     const { setCurrentSong } = usePlayer(); // Utiliza el contexto del reproductor
 
     const handleSongClick = (song) => {
@@ -59,6 +61,58 @@ export default function Biblioteca() {
             }
         }
     };
+
+    useEffect(() => {
+        const token = localStorage.getItem('access_token');  // Obtén el token
+        fetch(`${import.meta.env.VITE_API_URL}/playlists`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+            }
+        )
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('La respuesta de la red no fue exitosa');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setPlaylists(data);
+                if (data.length > 0) {
+                    setSelectedPlaylist(data[0]);
+                }
+            })
+            .catch(error => {
+                console.error('Error cargando los Playlists:', error);
+            });
+    }, []);  
+
+    useEffect(() => {
+        const token = localStorage.getItem('access_token');  // Obtén el token
+        fetch(`${import.meta.env.VITE_API_URL}/playlists/${selectedPlaylist.playlistId}`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+            }
+        )
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('La respuesta de la red no fue exitosa');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setSelectedPlaylistItems(data.canciones);
+            })
+            .catch(error => {
+                console.error('Error cargando los Playlists:', error);
+            });
+    }, [selectedPlaylist]);  
+
     return (
         <div className="biblioteca">
             <div className="flex justify-center">
@@ -100,12 +154,12 @@ export default function Biblioteca() {
 
             <p className="section-title">Tus Playlists</p>
             {/* Muestra las listas de reproducción */}
-            {Object.keys(playlists).map((name, index) => (
-                <div key={index}>
-                    <h3 className="playlist-title" onClick={() => setSelectedPlaylist(name)}>{name}</h3>
-                    {selectedPlaylist === name && (
+            {playlists.length > 0 && playlists.map((playlist) => (
+                <div key={playlist.playlistId}>
+                    <h3 className="playlist-title" onClick={() => setSelectedPlaylist(playlist)}>{playlist.title}</h3>
+                    {selectedPlaylist.title === playlist.title && (
                         <div className="playlist-list">
-                            {playlists[name].map((song, songIndex) => (
+                            {selectedPlaylistItems.length > 0 && selectedPlaylistItems.map((song, songIndex) => (
                                 <div key={songIndex} className="playlist-item" onClick={() => handleSongClick(song)}>
                                     <p>{songIndex + 1}. {song.titulo}
                                         {song.artistas.length > 0 && (

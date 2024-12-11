@@ -169,6 +169,7 @@ export const FavoritesProvider = ({ children }) => {
 
     const addSongToPlaylist = async (song, playlistId) => {
         try {
+            console.log("Canción a agregar:", song);
             const token = localStorage.getItem('access_token');  // Obtén el token
             const response = await fetch(`${import.meta.env.VITE_API_URL}/playlists/${playlistId}/cancion/${song.cancionId}`, {
                 method: 'POST',

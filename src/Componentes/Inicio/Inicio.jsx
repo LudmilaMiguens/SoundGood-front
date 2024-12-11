@@ -217,8 +217,8 @@ export default function Inicio() {
                         onChange={(e) => setSelectedPlaylist(e.target.value)}
                     >
                         <option value="">Selecciona una playlist</option>
-                        {Object.keys(playlists).map((name, index) => (
-                            <option key={index} value={name}>{name}</option>
+                        {playlists.map((playlist) => (
+                            <option key={playlist.playlistId} value={playlist.playlistId}>{playlist.title}</option>
                         ))}
                     </select>
                     {errorMessage && <p className="error-message">{errorMessage}</p>}
